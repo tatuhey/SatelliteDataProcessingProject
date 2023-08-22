@@ -80,50 +80,54 @@ namespace SatelliteDataProcessingProject
             lbSensorA1.Items.Clear();
             lbSensorB1.Items.Clear();
         }
+
+
         #endregion
 
         #region Typing Prevention
-        private void tbSelTicksA_PreviewTextInput(object sender, TextCompositionEventArgs e)
+
+        private void tbSelTicksA_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void tbInsTicksA_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void tbInsTicksA_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void tbBinaryIterativeA_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void tbBinaryIterativeA_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void tbBinaryRecursiveA_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void tbBinaryRecursiveA_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void tbSelTicksB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void tbSelTicksB_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void tbInsTicksB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void tbInsTicksB_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void tbBinaryIterativeB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void tbBinaryIterativeB_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void tbBinaryRecursiveB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void tbBinaryRecursiveB_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void intUpDoSigma_PreviewTextInput(object sender, TextCompositionEventArgs e)
+
+        private void intUpDoSigma_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             if (!int.TryParse(e.Text, out _))
             {
@@ -131,7 +135,7 @@ namespace SatelliteDataProcessingProject
             }
         }
 
-        private void intUpDoMu_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void intUpDoMu_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             if (!int.TryParse(e.Text, out _))
             {
@@ -163,6 +167,7 @@ namespace SatelliteDataProcessingProject
             int dataSize = 400; // LinkedList size
             for (int i = 0; i < dataSize; i++)
             {
+                // Convert to double
                 double sensorAValue = galileoInstance.SensorA(Convert.ToDouble(intUpDoMu.Text), Convert.ToDouble(intUpDoSigma.Text));
                 double sensorBValue = galileoInstance.SensorB(Convert.ToDouble(intUpDoMu.Text), Convert.ToDouble(intUpDoSigma.Text));
 
@@ -180,6 +185,7 @@ namespace SatelliteDataProcessingProject
             var nodeA = sensorAdata.First;
             var nodeB = sensorBdata.First;
 
+            // Assign columns to each sensors
             GridView gridView = new GridView();
             gridView.Columns.Add(new GridViewColumn
             {
@@ -257,7 +263,7 @@ namespace SatelliteDataProcessingProject
                 return false; // Nothing to sort
 
             int min, max;
-            max = list.Count;
+            max = NumberOfNodes(list);
             for (int i = 0; i < max - 1; i++)
             {
                 min = i;
@@ -288,14 +294,15 @@ namespace SatelliteDataProcessingProject
             if (list == null || list.Count <= 1)
                 return false; // Nothing to sort
 
-            int max = list.Count;
+            int max = NumberOfNodes(list);
 
             for (int i = 0; i < max - 1; i++)
             {
                 for (int j = i + 1; j > 0; j--)
                 {
-                    var currentNode = list.Find(list.ElementAt(j));
-                    var previousNode = list.Find(list.ElementAt(j - 1));
+                    // Find nodes
+                    LinkedListNode<T> currentNode = list.Find(list.ElementAt(j));
+                    LinkedListNode<T> previousNode = list.Find(list.ElementAt(j - 1));
 
                     var comparer = Comparer<T>.Default;
                     if (comparer.Compare(previousNode.Value, currentNode.Value) > 0)
@@ -307,11 +314,8 @@ namespace SatelliteDataProcessingProject
                     }
                 }
             }
-
             return true;
         }
-
-
 
         //4.9	Create a method called “BinarySearchIterative” which has the following four parameters:
         //      LinkedList, SearchValue, Minimum and Maximum.This method will return an integer of the linkedlist element from a successful search
@@ -438,7 +442,7 @@ namespace SatelliteDataProcessingProject
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                int resultIndex = BinarySearchIterative(sensorAdata, searchValue, 0, sensorAdata.Count - 1);
+                int resultIndex = BinarySearchIterative(sensorAdata, searchValue, 0, NumberOfNodes(sensorAdata) - 1);
                 stopwatch.Stop();
 
                 tbBinaryIterativeA.Text = stopwatch.ElapsedTicks.ToString() + " ticks";
@@ -471,7 +475,7 @@ namespace SatelliteDataProcessingProject
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                int resultIndex = BinarySearchRecursive(sensorAdata, searchValue, 0, sensorAdata.Count - 1);
+                int resultIndex = BinarySearchRecursive(sensorAdata, searchValue, 0, NumberOfNodes(sensorAdata) - 1);
                 stopwatch.Stop();
 
                 tbBinaryRecursiveA.Text = stopwatch.ElapsedTicks.ToString() + " ticks";
@@ -505,7 +509,7 @@ namespace SatelliteDataProcessingProject
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                int resultIndex = BinarySearchIterative(sensorBdata, searchValue, 0, sensorBdata.Count - 1);
+                int resultIndex = BinarySearchIterative(sensorBdata, searchValue, 0, NumberOfNodes(sensorBdata) - 1);
                 stopwatch.Stop();
 
                 tbBinaryIterativeB.Text = stopwatch.ElapsedTicks.ToString() + " ticks";
@@ -539,7 +543,7 @@ namespace SatelliteDataProcessingProject
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                int resultIndex = BinarySearchRecursive(sensorBdata, searchValue, 0, sensorBdata.Count - 1);
+                int resultIndex = BinarySearchRecursive(sensorBdata, searchValue, 0, NumberOfNodes(sensorBdata) - 1);
                 stopwatch.Stop();
 
                 tbBinaryRecursiveB.Text = stopwatch.ElapsedTicks.ToString() + " ticks";
@@ -663,10 +667,6 @@ namespace SatelliteDataProcessingProject
                 e.Handled = true; // Suppress the input
             }
         }
-
-
-
-
         #endregion
 
 
