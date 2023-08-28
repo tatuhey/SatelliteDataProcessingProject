@@ -41,6 +41,22 @@ namespace SatelliteDataProcessingProject
         }
 
         #region Others
+        private void ButtonsSortDisableAll()
+        {
+            btnInsSortA.IsEnabled = false;
+            btnInsSortB.IsEnabled = false;
+            btnSelSortA.IsEnabled = false;
+            btnSelSortB.IsEnabled = false;
+        }
+
+        private void ButtonsSortEnableAll()
+        {
+            btnSelSortA.IsEnabled = true;
+            btnSelSortB.IsEnabled = true;
+            btnInsSortA.IsEnabled = true;
+            btnInsSortB.IsEnabled = true;
+        }
+
         private void ButtonsDisable_A()
         {
             btnBinaryIterativeA.IsEnabled = false;
@@ -221,6 +237,7 @@ namespace SatelliteDataProcessingProject
             ShowAllSensorData();
             ButtonsDisable_A();
             ButtonsDisable_B();
+            ButtonsSortEnableAll();
         }
         #endregion
 
@@ -262,8 +279,8 @@ namespace SatelliteDataProcessingProject
             if (list == null || list.Count <= 1)
                 return false; // Nothing to sort
 
-            int min, max;
-            max = NumberOfNodes(list);
+            int min;
+            int max = NumberOfNodes(list);
             for (int i = 0; i < max - 1; i++)
             {
                 min = i;
@@ -532,7 +549,7 @@ namespace SatelliteDataProcessingProject
 
         private void btnBinaryRecursiveB_Click(object sender, RoutedEventArgs e)
         {
-            double searchValue;
+            double searchValue;           
             if (!double.TryParse(tbTargetB.Text, out searchValue))
             {
                 MessageBox.Show("Invalid search value.");
@@ -591,6 +608,7 @@ namespace SatelliteDataProcessingProject
 
         private void btnSelSortA_Click(object sender, RoutedEventArgs e)
         {
+            ButtonsSortDisableAll();
             ButtonsEnable_A();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -605,6 +623,7 @@ namespace SatelliteDataProcessingProject
 
         private void btnInsSortA_Click(object sender, RoutedEventArgs e)
         {
+            ButtonsSortDisableAll();
             ButtonsEnable_A();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -619,6 +638,7 @@ namespace SatelliteDataProcessingProject
 
         private void btnSelSortB_Click(object sender, RoutedEventArgs e)
         {
+            ButtonsSortDisableAll();
             ButtonsEnable_B();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -633,6 +653,7 @@ namespace SatelliteDataProcessingProject
 
         private void btnInsSortB_Click(object sender, RoutedEventArgs e)
         {
+            ButtonsSortDisableAll();
             ButtonsEnable_B();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
